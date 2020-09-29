@@ -31,8 +31,8 @@ class Master{
      */
     assignments(data){
         const list = JSON.parse(data);
-        console.log("目前能执行的进程数量:",(this.cpuNum - this.workCPU));
-        for(let i = 0; i < (this.cpuNum - this.workCPU); i++){
+        console.log("目前能执行的进程数量:",(this.cpuNum - this.workCPU.length));
+        for(let i = 0; i < (this.cpuNum - this.workCPU.length); i++){
             console.log("忙碌机子数量>>>>",this.workCPU.length);
             console.log("空闲机子数量>>>>",this.freeCPU.length);
             this.startWork(i,list[i]);
