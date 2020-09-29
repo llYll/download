@@ -29,14 +29,3 @@ client.on("error", (err) => {
     console.log("response err:" + err);
 });
 
-console.log('开始第一批：')
-
-master.assignments(JSON.stringify(
-    [
-        {
-            id:1,
-            url:'eclipse-mosquitto:latest',
-            type:1
-        }
-    ]
-))

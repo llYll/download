@@ -18,7 +18,7 @@ Array.prototype.remove = function(val) {
  */
 class Master{
     constructor() {
-        this.cpuNum = 1;
+        this.cpuNum = 10;
         this.workCPU = [];
         this.freeCPU = [];
     }
@@ -31,12 +31,8 @@ class Master{
      */
     assignments(data){
         const list = JSON.parse(data);
-
-        if(list.length + this.workCPU.length > this.cpuNum){
-            console.error("指定任务过多，达到上限")
-            return false;
-        }
-        for(let i = 0; i<list.length; i++){
+        console.log("目前能执行的进程数量:",(this.cpuNum - this.workCPU));
+        for(let i = 0; i < (this.cpuNum - this.workCPU); i++){
             console.log("忙碌机子数量>>>>",this.workCPU.length);
             console.log("空闲机子数量>>>>",this.freeCPU.length);
             this.startWork(i,list[i]);
@@ -58,12 +54,15 @@ class Master{
         } else if(info.type === enumList.TASK_TYPE.DOCKER){
             workPath = path.join(__dirname,`./${config.workerName.docker}`);
         }
+        console.log("work类型:",workPath)
         let work;
         // 筛选worker
         if(this.freeCPU.length > 0 ){
             work = this.freeCPU[0];
+            console.log('使用空闲进程号为',work.pid);
             this.freeCPU.remove(work);
         }else{
+            console.log('创建新的一个子线程,空闲进程数量为',this.freeCPU.length)
             work = childProcess.fork(workPath);
         }
         this.workCPU.push(work);
