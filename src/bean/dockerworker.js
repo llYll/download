@@ -50,6 +50,8 @@ process.on('message',async (info)=>{
         },{
             id,
         })
+    }finally {
+        process.send("over")
     }
 })
 
