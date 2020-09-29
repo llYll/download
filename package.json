@@ -1,0 +1,21 @@
+{
+  "name": "down",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "pm2": "pm2 start pm2.config.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@textile/hub": "^1.0.0",
+    "axios": "^0.20.0",
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security",
+    "ioredis": "^4.17.3",
+    "mysql2": "^2.2.5",
+    "os": "^0.1.1",
+    "sequelize": "^6.3.5"
+  }
+}
