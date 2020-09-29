@@ -35,7 +35,7 @@ class Master{
         if(freeCpu > this.cpuNum){
             console.error('线程超标');
             const workCPUArr = this.workCPU.map(v => v.pid);
-            const freeCPUArr = this.workCPU.map(v => v.pid);
+            const freeCPUArr = this.freeCPU.map(v => v.pid);
             console.error('忙碌进程数：',workCPUArr);
             console.error('空闲进程数：',freeCPUArr);
             return ;
