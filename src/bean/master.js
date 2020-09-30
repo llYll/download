@@ -94,9 +94,17 @@ class Master{
         info.index = index + 1 ;
         work.send(JSON.stringify(info));
         work.on('message',(msg) =>{
-            console.log(`work：${work.pid}，执行任务${info}传回信息:`,msg)
-            delete this.workCPU[work.pid];
-            this.freeCPU[work.pid] = work;
+            const resultinfo = JSON.parse(msg);
+            if(resultinfo.type == enumList.Communication.LOG ){
+                console.log(resultinfo.data);
+            }
+            if(resultinfo.type == enumList.Communication.ERROR ){
+                console.error(resultinfo.data,'stack: ', resultinfo.stack);
+            }
+            if(resultinfo.type == enumList.Communication.RESULT ){
+                console.log(`work：${work.pid}，执行任务${info}传回信息:`,msg)
+                delete this.workCPU[work.pid];
+                this.freeCPU[work.pid] = work;            }
         })
         work.on('close',(code)=>{
             delete this.workCPU[work.pid];
