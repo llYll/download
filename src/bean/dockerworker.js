@@ -73,7 +73,7 @@ process.on('message',async (info)=>{
 
         await download.update({
             downloadStatus:enumList.DOWNLOAD_STATUS.FINISH,
-            saveAddress: `./source/${imageInfo[0]+'-'+imageInfo[1]}`
+            saveAddress: `./source/${imageInfo[0]+'-'+imageInfo[1]}.tar`
         },{
             id,
         })
