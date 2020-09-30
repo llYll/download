@@ -1,12 +1,13 @@
 const childProcess = require('child_process');
 const path = require('path');
-const os = require('os');
+const enumList = require('./src/enum/enum')
 const Redis = require('ioredis');
 const config = require('./config/config');
 const db = require('./src/models');
 const client = new Redis(config.redis);
 const { Master } = require('./src/bean/master')
 
+const  download= require('./src/models/downloadInfo');
 
 const master = new Master();
 
@@ -29,3 +30,13 @@ client.on("error", (err) => {
     console.log("response err:" + err);
 });
 
+process.on("SIGINT",async function () {
+    await download.update({
+        downloadStatus: enumList.DOWNLOAD_STATUS.INIT
+    },{
+        downloadStatus: enumList.DOWNLOAD_STATUS.START
+    })
+    //打印出错误
+    console.log("进程强制退出  ");
+    process.exit(1)
+})
