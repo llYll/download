@@ -18,8 +18,8 @@ const saveImage = function ({
     console.log("开始导出images");
     const execShell = `docker save -o ./${saveFileName}.tar  ${imagesName}:${imageTag}`;
     console.log('execShell ', execShell);
-    console.log("导出images 结束");
     const stdout = cp.execSync(execShell, { cwd: savePath });
+    console.log("导出images 结束");
     return stdout;
 };
 

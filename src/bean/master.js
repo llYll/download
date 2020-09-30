@@ -3,6 +3,7 @@ const path = require('path');
 const os = require('os');
 const config = require('../../config/config');
 const enumList = require('../enum/enum');
+const  download= require('../models/downloadInfo');
 
 Array.prototype.remove = function(val) {
     let index = this.indexOf(val);
@@ -25,7 +26,7 @@ function getJsonLength(jsonData) {
  */
 class Master{
     constructor() {
-        this.cpuNum = 10;
+        this.cpuNum = 44;
         this.workCPU = {};
         this.freeCPU = {};
     }
@@ -112,6 +113,16 @@ class Master{
         }
     }
 }
+
+process.on('uncaughtException', async function (err) {
+    await download.update({
+        downloadStatus: enumList.DOWNLOAD_STATUS.INIT
+    },{
+        downloadStatus: enumList.DOWNLOAD_STATUS.START
+    })
+    //打印出错误
+    console.log("MASTER异常退出  ",err);
+});
 
 module.exports = {
     Master

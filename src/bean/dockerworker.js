@@ -14,6 +14,10 @@ process.on('message',async (info)=>{
     const id = data.id;
     try {
         workid = data.index;
+        let savePath = data.index % 11;
+        if(savePath == 0){
+            savePath = 11;
+        }
         await download.update({
             downloadStatus: enumList.DOWNLOAD_STATUS.START,
         },{
@@ -25,10 +29,11 @@ process.on('message',async (info)=>{
             console.error('未指定挂载盘')
             return ;
         }
-        if(! fs.existsSync(`/data${workid}/source`)){
-            fs.mkdirSync(`/data${workid}/source`)
+        if(! fs.existsSync(`/data${savePath}/source`)){
+            fs.mkdirSync(`/data${savePath}/source`)
         }
-        const outPath = path.join(`/data${workid}`,'./','source');
+        const outPath = path.join(`/data${savePath}`,'./','source');
+        console.log(`镜像${imageInfo[0]+'-'+imageInfo[1]}存储位置`,outPath);
 
         pullImage(imageInfo[0],imageInfo[1]);
         saveImage({
@@ -44,7 +49,7 @@ process.on('message',async (info)=>{
             id,
         })
     }catch (e) {
-        console.error(e);
+        console.error("docker 打包存储异常：",e);
         await download.update({
             downloadStatus:enumList.DOWNLOAD_STATUS.FAILED
         },{
